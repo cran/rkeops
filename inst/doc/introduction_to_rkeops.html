@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Authors</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<ul>
+<li>URL: <a href="https://www.kernel-operations.io/">https://www.kernel-operations.io/</a></li>
+<li>Source: <a href="https://github.com/getkeops/keops">https://github.com/getkeops/keops</a></li>
+<li>Licence and Copyright: see <a href="https://github.com/getkeops/keops/blob/master/licence.txt">https://github.com/getkeops/keops/blob/master/licence.txt</a></li>
+</ul>
+
+<h1>Authors</h1>
+
+<p>Feel free to contact us for any bug report or feature request, you can also fill 
+an issue report on <a href="https://github.com/getkeops/keops/issues">GitHub</a>.</p>
+
+<h2>KeOps, PyKeOps, KeOpsLab</h2>
+
+<ul>
+<li><a href="https://imag.umontpellier.fr/%7Echarlier/">Benjamin Charlier</a></li>
+<li><a href="https://www.math.ens.fr/%7Efeydy/">Jean Feydy</a></li>
+<li><a href="http://helios.mi.parisdescartes.fr/%7Eglaunes/">Joan Alexis Glaunès</a></li>
+</ul>
+
+<h2>RKeOps</h2>
+
+<ul>
+<li><a href="https://gdurif.perso.math.cnrs.fr/">Ghislain Durif</a></li>
+</ul>
+
+<h2>Contributors</h2>
+
+<ul>
+<li>François-David Collin</li>
+</ul>
+
+<hr/>
+
+<h1>What is RKeOps?</h1>
+
+<p>RKeOps is the R package interfacing the KeOps library. <a href="https://gdurif.perso.math.cnrs.fr/files/material/slides_Toulouse_2019_Durif_KeOps.pdf">Here</a> you can find a few slides explaining functionalities of the KeOps library.</p>
+
+<h2>KeOps</h2>
+
+<blockquote>
+<p>Seamless Kernel Operations on GPU, with auto-differentiation and without memory overflows</p>
+</blockquote>
+
+<p>The KeOps library (<a href="http://www.kernel-operations.io">http://www.kernel-operations.io</a>) provides routines to compute generic reductions of large 2d arrays whose entries are given by a mathematical formula. Using a C++/CUDA-based implementation with GPU support, it combines a tiled reduction scheme with an automatic differentiation engine. Relying on online map-reduce schemes, it is perfectly suited to the scalable computation of kernel dot products and the associated gradients, even when the full kernel matrix does not fit into the GPU memory.</p>
+
+<p>KeOps is all about breaking through this memory bottleneck and making GPU power available for seamless standard mathematical routine computations. As of 2019, this effort has been mostly restricted to the operations needed to implement Convolutional Neural Networks: linear algebra routines and convolutions on grids, images and volumes. KeOps provides GPU support without the cost of developing a specific CUDA implementation of your custom mathematical operators.</p>
+
+<p>To ensure its versatility, KeOps can be used through Matlab, Python (NumPy or PyTorch) and R back-ends.</p>
+
+<h2>RKeOps</h2>
+
+<p>RKeOps is a library that can<br><br></p>
+
+<ul>
+<li><p>Compute <strong>generic reduction</strong> (row-wise or column-wise) of very large array/matrices, i.e. \[\sum_{i=1}^M a_{ij} \ \ \ \ \text{or}\ \ \ \ \sum_{j=1}^N a_{ij}\] for some matrix \(A = [a_{ij}]_{M \times N}\) with \(M\) rows and \(N\) columns, whose entries \(a_{ij}\) can be defined with basic math formulae or matrix operators.<br><br></p></li>
+<li><p>Compute <strong>kernel dot products</strong>, i.e. \[\sum_{i=1}^M K(\mathbf x_i, \mathbf y_j)\ \ \ \ \text{or}\ \ \ \ \sum_{j=1}^N K(\mathbf x_i, \mathbf y_j)\] for a kernel function \(K\) and some vectors \(\mathbf x_i\), \(\mathbf y_j\in \mathbb{R}^D\) that are generally rows of some data matrices \(\mathbf X = [x_{ik}]_{M \times D}\) and \(\mathbf Y = [y_{jk}]_{N \times D}\) respectively.<br><br></p></li>
+<li><p>Compute the <strong>associated gradients</strong><br><br></p></li>
+</ul>
+
+<blockquote>
+<p><strong><em>Applications</em></strong>: RKeOps can be used to implement a wide range of problems encountered in <strong><em>machine learning</em></strong>, <strong><em>statistics</em></strong> and more: such as \(k\)-nearest neighbor classification, \(k\)-means clustering, Gaussian-kernel-based problems (e.g. linear system with Ridge regularization), etc.</p>
+</blockquote>
+
+<h2>Why using RKeOps?</h2>
+
+<p>RKeOps provides<br></p>
+
+<ul>
+<li><p>an API to create <strong>user-defined operators</strong> based on generic mathematical formulae, that can be applied to data matrices such as \(\mathbf X = [x_{ik}]_{M \times D}\) and \(\mathbf Y = [y_{jk}]_{N \times D}\).<br></p></li>
+<li><p>fast computation on <strong>GPU</strong> without memory overflow, especially to process <strong>very large dimensions</strong> \(M\) and \(N\) (e.g. \(\approx 10^4\) or \(10^6\)) over indexes \(i\) and \(j\).<br></p></li>
+<li><p>automatic differentiation and <strong>gradient computations</strong> for user-defined operators.<br></p></li>
+</ul>
+
+<hr/>
+
+<h1>Matrix reduction and kernel operator</h1>
+
+<p>The general framework of RKeOps (and KeOps) is to provide fast and scalable matrix operations on GPU, in particular kernel-based computations of the form \[\underset{i=1,&hellip;,M}{\text{reduction}}\ G(\boldsymbol{\sigma}, \mathbf x_i, \mathbf y_j) \ \ \ \ \text{or}\ \ \ \ \underset{j=1,&hellip;,N}{\text{reduction}}\ G(\boldsymbol{\sigma}, \mathbf x_i, \mathbf y_j)\] where<br></p>
+
+<ul>
+<li><p>\(\boldsymbol{\sigma}\in\mathbb R^L\) is a vector of parameters<br></p></li>
+<li><p>\(\mathbf x_i\in \mathbb{R}^D\) and \(\mathbf y_j\in \mathbb{R}^{D'}\) are two vectors of data (potentially with different dimensions)<br></p></li>
+<li><p>\(G: \mathbb R^L \times \mathbb R^D \times \mathbb R^{D'} \to \mathbb R\) is a function of the data and the parameters, that can be expressed through a composition of generic operators<br></p></li>
+<li><p>\(\text{reduction}\) is a generic reduction operation over the index \(i\) or \(j\) (e.g. sum)<br><br></p></li>
+</ul>
+
+<p>RKeOps creates (and compiles on the fly) an operator implementing your formula. You can apply it to your data, or compute its gradient regarding some data points.<br><br></p>
+
+<blockquote>
+<p><strong><em>Note:</em></strong> You can use a wide range of reduction such as <code>sum</code>, <code>min</code>, <code>argmin</code>, <code>max</code>, <code>argmax</code>, etc.</p>
+</blockquote>
+
+<h2>What you need to do</h2>
+
+<p>To use RKeOps you only need to express your computations as a formula with the previous form.<br><br></p>
+
+<p>RKeOps allows to use a wide range of mathematical functions to define your operators (see <a href="https://www.kernel-operations.io/keops/api/math-operations.html">https://www.kernel-operations.io/keops/api/math-operations.html</a>).<br><br></p>
+
+<p>You can use two type of input matrices with RKeOps:<br></p>
+
+<ul>
+<li><p>ones whose rows (or columns) are indexed by \(i=1,&hellip;,M\) such as \(\mathbf X = [x_{ik}]_{M \times D}\)<br></p></li>
+<li><p>others whose rows (or columns) are indexed by \(j=1,&hellip;,N\) such as \(\mathbf Y = [y_{ik'}]_{N \times D'}\)<br><br></p></li>
+</ul>
+
+<p>More details about input matrices (size, storage order) are given in the vignette &#39;Using RKeOps&#39;.</p>
+
+<h2>Example in R</h2>
+
+<p>We want to implement with RKeOps the following mathematical formula \[\sum_{j=1}^{N} \exp\Big(-\sigma || \mathbf x_i - \mathbf y_j ||_2^{\,2}\Big)\,\mathbf b_j\]
+with</p>
+
+<ul>
+<li><p>parameter: \(\sigma\in\mathbb R\)<br></p></li>
+<li><p>\(i\)-indexed variables \(\mathbf X = [\mathbf x_i]_{i=1,&hellip;,M} \in\mathbb R^{M\times 3}\)<br></p></li>
+<li><p>\(j\)-indexed variables \(\mathbf Y = [\mathbf y_j]_{j=1,&hellip;,N} \in\mathbb R^{N\times 3}\) and \(\mathbf B = [\mathbf b_j]_{j=1,&hellip;,N} \in\mathbb R^{N\times 6}\)<br><br></p></li>
+</ul>
+
+<p>In R, we can define the corresponding KeOps formula as a <strong>simple text string</strong>:</p>
+
+<pre><code class="r">formula = &quot;Sum_Reduction(Exp(-s * SqNorm2(x - y)) * b, 0)&quot;
+</code></pre>
+
+<ul>
+<li><code>SqNorm2</code> = squared \(\ell_2\) norm</li>
+<li><code>Exp</code> = exponential</li>
+<li><code>Sum_reduction(..., 0)</code> = sum reduction over the dimension 0 i.e. sum on the \(j\)&#39;s (1 to sum over the \(i\)&#39;s)<br></li>
+</ul>
+
+<p>and the corresponding arguments of the formula, i.e. parameters or variables indexed by \(i\) or \(j\) with their corresponding inner dimensions:</p>
+
+<pre><code class="r">args = c(&quot;x = Vi(3)&quot;,      # vector indexed by i (of dim 3)
+         &quot;y = Vj(3)&quot;,      # vector indexed by j (of dim 3)
+         &quot;b = Vj(6)&quot;,      # vector indexed by j (of dim 6)
+         &quot;s = Pm(1)&quot;)      # parameter (scalar) 
+</code></pre>
+
+<p>Then we just compile the corresponding operator and apply it to some data</p>
+
+<pre><code class="r"># compilation
+op &lt;- keops_kernel(formula, args)
+# data and parameter values
+nx &lt;- 100
+ny &lt;- 150
+X &lt;- matrix(runif(nx*3), nrow=nx)   # matrix 100 x 3
+Y &lt;- matrix(runif(ny*3), nrow=ny)   # matrix 150 x 3
+B &lt;- matrix(runif(ny*6), nrow=ny)   # matrix 150 x 6
+s &lt;- 0.2
+# computation (order of the input arguments should be similar to `args`)
+res &lt;- op(list(X, Y, B, s))
+</code></pre>
+
+<h2>Generic kernel function</h2>
+
+<p>With RKeOps, you can define kernel functions \(K: \mathbb R^D \times \mathbb R^D \to \mathbb R\) such as, for some vectors \(\mathbf x_i\), \(\mathbf y_j\in \mathbb{R}^D\)<br></p>
+
+<ul>
+<li><p>the linear kernel (standard scalar product) \(K(\mathbf x_i, \mathbf y_j) = \big\langle \mathbf x_i \, , \, \mathbf y_j \big\rangle\)<br></p></li>
+<li><p>the Gaussian kernel \(K(\mathbf x_i, \mathbf y_j) = \exp\left(-\frac{1}{2\sigma^2} || \mathbf x_i - \mathbf y_j ||_2^{\,2}\right)\) with \(\sigma>0\)<br></p></li>
+<li><p>and more&hellip;<br><br></p></li>
+</ul>
+
+<p>Then you can compute reductions based on such functions, especially when the \(M \times N\) matrix \(\mathbf K = [K(\mathbf x_i, \mathbf y_j)]\) is too large to fit into memory, such as<br></p>
+
+<ul>
+<li><p>Kernel reduction: \[\sum_{i=1}^M K(\mathbf x_i, \mathbf y_j)\ \ \ \ \text{or}\ \ \ \ \sum_{j=1}^N K(\mathbf x_i, \mathbf y_j)\]</p></li>
+<li><p>Convolution-like operations: \[\sum_{i=1}^M K(\mathbf x_i, \mathbf y_j)\boldsymbol\beta_j\ \ \ \ \text{or}\ \ \ \ \sum_{j=1}^N K(\mathbf x_i, \mathbf y_j)\boldsymbol\beta_j\] for some vectors \((\boldsymbol\beta_j)_{j=1,&hellip;,N} \in \mathbb R^{N\times D}\)<br><br></p></li>
+<li><p>More complex operations: \[\sum_{i=1}^{M}\, K_1(\mathbf x_i, \mathbf y_j)\, K_2(\mathbf u_i, \mathbf v_j)\,\langle \boldsymbol\alpha_i\, ,\,\boldsymbol\beta_j\rangle \ \ \ \ \text{or}\ \ \ \ \sum_{j=1}^{N}\, K_1(\mathbf x_i, \mathbf y_j)\, K_2(\mathbf u_i, \mathbf v_j)\,\langle \boldsymbol\alpha_i\, ,\,\boldsymbol\beta_j\rangle\] for some kernel \(K_1\) and \(K_2\), and some \(D\)-vectors \((\mathbf x_i)_{i=1,&hellip;,M}, (\mathbf u_i)_{i=1,&hellip;,M}, (\boldsymbol\alpha_i)_{i=1,&hellip;,M} \in \mathbb R^{M\times D}\) and \((\mathbf y_j)_{j=1,&hellip;,N}, (\mathbf v_j)_{j=1,&hellip;,N}, (\boldsymbol\beta_j)_{j=1,&hellip;,N} \in \mathbb R^{N\times D}\)</p></li>
+</ul>
+
+<h2>GPU computing</h2>
+
+<p>Based on your formulae, RKeOps compile on the fly operators that can be used to run the corresponding computations on GPU, it uses a tiling scheme to decompose the data and avoid (i) useless and costly memory transfers between host and GPU (performance gain) and (ii) memory overflow.</p>
+
+<blockquote>
+<p><strong><em>Note:</em></strong> You can use the same code (i.e. define the same operators) for CPU or GPU computing. The only difference will be the compiler used for the compilation of your operators (upon the availability of CUDA on your system).</p>
+</blockquote>
+
+<hr/>
+
+<h1>Installing and using RKeOps</h1>
+
+<p>See the specific vignette <strong>Using RKeOps</strong>.</p>
+
+</body>
+
+</html>
