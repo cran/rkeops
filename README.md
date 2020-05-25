@@ -48,6 +48,19 @@ RKeOps) and read the vignettes available in R with the command
 
 # Installation
 
+## SystemRequirements
+
+* C++11: you should have a C++ compiler compatible with C++11 (see 
+  <https://en.cppreference.com/w/cpp/compiler_support> for details). We 
+  recommend GCC or clang.
+* cmake (>=3.10): should be available in standard path. You can get cmake 
+  at <https://cmake.org/>.
+* clang (optional): clang compiler is supported.
+* CUDA (optional but recommended for performance): you need CUDA to enable GPU 
+  computing in RKeOps. CUDA can be found at 
+  <https://developer.nvidia.com/cuda-downloads>.
+* At the moment, RKeOps is not available for Windows.
+
 ## Install from CRAN
 
 > **Note:** RKeOps is not avaible on CRAN yet, it should be soon.
