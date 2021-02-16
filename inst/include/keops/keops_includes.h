@@ -1,4 +1,43 @@
 
+// special computation scheme for dim>100
+#ifndef ENABLECHUNK
+  #define ENABLECHUNK 1
+#endif
+#ifndef DIMCHUNK
+  #define DIMCHUNK 64
+#endif
+#ifndef DIM_TRESHOLD_CHUNK
+  #define DIM_TRESHOLD_CHUNK 143
+#endif
+#ifndef SPECDIM_USE_CHUNK1
+  #define SPECDIM_USE_CHUNK1 -1 // originally 80 but deactivated for release 1.4.2
+#endif
+#ifndef SPECDIM_USE_CHUNK2
+  #define SPECDIM_USE_CHUNK2 109
+#endif
+#ifndef SPECDIM_USE_CHUNK3
+  #define SPECDIM_USE_CHUNK3 112
+#endif
+#ifndef SPECDIM_USE_CHUNK4
+  #define SPECDIM_USE_CHUNK4 114
+#endif
+
+// special mode for formula of the type sum_j k(x_i,y_j)*b_j with high dimensional b_j
+#ifndef ENABLE_FINAL_CHUNKS
+  #define ENABLE_FINAL_CHUNKS 1
+#endif
+#ifndef DIMFINALCHUNK
+  #define DIMFINALCHUNK 64
+#endif
+#ifndef MULT_VAR_HIGHDIM
+  #define MULT_VAR_HIGHDIM 0
+#endif
+#if ENABLE_FINAL_CHUNKS==1 && MULT_VAR_HIGHDIM==1
+	#define USE_FINAL_CHUNKS 1
+#else
+	#define USE_FINAL_CHUNKS 0
+#endif
+
 #if USE_HALF
   #include <cuda_fp16.h>
 #endif
@@ -23,7 +62,9 @@
 #include "core/formulas/maths/Subtract.h"
 #include "core/formulas/maths/Exp.h"
 #include "core/formulas/maths/Sin.h"
+#include "core/formulas/maths/Asin.h"
 #include "core/formulas/maths/Cos.h"
+#include "core/formulas/maths/Acos.h"
 #include "core/formulas/maths/Pow.h"
 #include "core/formulas/maths/Square.h"
 #include "core/formulas/maths/Inv.h"
@@ -35,12 +76,19 @@
 #include "core/formulas/maths/Abs.h"
 #include "core/formulas/maths/Step.h"
 #include "core/formulas/maths/ReLu.h"
+#include "core/formulas/maths/Clamp.h"
+#include "core/formulas/maths/ClampInt.h"
 #include "core/formulas/maths/Powf.h"
 #include "core/formulas/maths/Sqrt.h"
 #include "core/formulas/maths/Rsqrt.h"
+#include "core/formulas/maths/Atan.h"
 #include "core/formulas/maths/MatVecMult.h"
 #include "core/formulas/maths/GradMatrix.h"
-#include "core/formulas/maths/TensorDot.h"
+#if ((__CUDACC_VER_MAJOR__ * 1000 + __CUDACC_VER_MINOR__ * 100 + __CUDACC_VER_BUILD__) >= 11100)
+    #include "core/formulas/maths/TensorDotNoTao.h"
+#else
+    #include "core/formulas/maths/TensorDot.h"
+#endif
 #include "core/formulas/maths/TensorProd.h"
 #include "core/formulas/maths/VecMatMult.h"
 #include "core/formulas/maths/OneHot.h"
@@ -90,20 +138,6 @@
 #define KAHAN_SCHEME 2
 #ifndef SUM_SCHEME
   #define SUM_SCHEME DIRECT_SUM
-#endif
-
-// special computation scheme for dim>100
-#ifndef ENABLECHUNK
-  #define ENABLECHUNK 0
-#endif
-#ifndef DIMCHUNK
-  #define DIMCHUNK 64
-#endif
-#ifndef CUDA_BLOCK_SIZE_CHUNKS
-  #define CUDA_BLOCK_SIZE_CHUNKS 192
-#endif
-#ifndef DIM_TRESHOLD_CHUNK
-  #define DIM_TRESHOLD_CHUNK 110
 #endif
 
 // float16 support

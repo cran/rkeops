@@ -37,8 +37,12 @@ library(rkeops)
 #  Y <- matrix(runif(ny*3), nrow=ny)   # matrix 150 x 3
 #  B <- matrix(runif(ny*6), nrow=ny)   # matrix 150 x 6
 #  s <- 0.2
-#  # run computations on GPU (to be used only if relevant)
+#  
+#  # to run computation on CPU (default mode)
+#  use_cpu()
+#  # to run computations on GPU (to be used only if relevant)
 #  use_gpu()
+#  
 #  # computation (order of the input arguments should be similar to `args`)
 #  res <- op(list(X, Y, B, s))
 
@@ -66,8 +70,12 @@ library(rkeops)
 #  Y <- matrix(runif(ny*3), nrow=ny)   # matrix 150 x 3
 #  B <- matrix(runif(ny*6), nrow=ny)   # matrix 150 x 6
 #  s <- 0.2
-#  # run computations on GPU (to be used only if relevant)
+#  
+#  # to run computation on CPU (default mode)
+#  use_cpu()
+#  # to run computations on GPU (to be used only if relevant)
 #  use_gpu()
+#  
 #  # computation (order of the input arguments should be similar to `args`)
 #  res <- op(list(x, y, beta, s))
 
