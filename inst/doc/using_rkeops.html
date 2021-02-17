@@ -1,643 +1,503 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Installing RKeOps</title>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<script type="text/javascript">
-window.onload = function() {
-  var imgs = document.getElementsByTagName('img'), i, img;
-  for (i = 0; i < imgs.length; i++) {
-    img = imgs[i];
-    // center an image if it is the only element of its parent
-    if (img.parentElement.childElementCount === 1)
-      img.parentElement.style.textAlign = 'center';
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+<meta name="date" content="2021-02-17" />
+
+<title>Using RKeOps</title>
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
   }
-};
-</script>
-
-<!-- Styles for R syntax highlighter -->
-<style type="text/css">
-   pre .operator,
-   pre .paren {
-     color: rgb(104, 118, 135)
-   }
-
-   pre .literal {
-     color: #990073
-   }
-
-   pre .number {
-     color: #099;
-   }
-
-   pre .comment {
-     color: #998;
-     font-style: italic
-   }
-
-   pre .keyword {
-     color: #900;
-     font-weight: bold
-   }
-
-   pre .identifier {
-     color: rgb(0, 0, 0);
-   }
-
-   pre .string {
-     color: #d14;
-   }
-</style>
-
-<!-- R syntax highlighter -->
-<script type="text/javascript">
-var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
-hljs.initHighlightingOnLoad();
-</script>
-
-<!-- MathJax scripts -->
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
+})();
 </script>
 
 
-<style type="text/css">
-body, td {
-   font-family: sans-serif;
-   background-color: white;
-   font-size: 13px;
-}
 
-body {
-  max-width: 800px;
-  margin: auto;
-  padding: 1em;
-  line-height: 20px;
-}
 
-tt, code, pre {
-   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
-}
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
 
-h1 {
-   font-size:2.2em;
-}
-
-h2 {
-   font-size:1.8em;
-}
-
-h3 {
-   font-size:1.4em;
-}
-
-h4 {
-   font-size:1.0em;
-}
-
-h5 {
-   font-size:0.9em;
-}
-
-h6 {
-   font-size:0.8em;
-}
-
-a:visited {
-   color: rgb(50%, 0%, 50%);
-}
-
-pre, img {
-  max-width: 100%;
-}
-pre {
-  overflow-x: auto;
-}
-pre code {
-   display: block; padding: 0.5em;
-}
-
-code {
-  font-size: 92%;
-  border: 1px solid #ccc;
-}
-
-code[class] {
-  background-color: #F8F8F8;
-}
-
-table, td, th {
-  border: none;
-}
-
-blockquote {
-   color:#666666;
-   margin:0;
-   padding-left: 1em;
-   border-left: 0.5em #EEE solid;
-}
-
-hr {
-   height: 0px;
-   border-bottom: none;
-   border-top-width: thin;
-   border-top-style: dotted;
-   border-top-color: #999999;
-}
-
-@media print {
-   * {
-      background: transparent !important;
-      color: black !important;
-      filter:none !important;
-      -ms-filter: none !important;
-   }
-
-   body {
-      font-size:12pt;
-      max-width:100%;
-   }
-
-   a, a:visited {
-      text-decoration: underline;
-   }
-
-   hr {
-      visibility: hidden;
-      page-break-before: always;
-   }
-
-   pre, blockquote {
-      padding-right: 1em;
-      page-break-inside: avoid;
-   }
-
-   tr, img {
-      page-break-inside: avoid;
-   }
-
-   img {
-      max-width: 100% !important;
-   }
-
-   @page :left {
-      margin: 15mm 20mm 15mm 10mm;
-   }
-
-   @page :right {
-      margin: 15mm 10mm 15mm 20mm;
-   }
-
-   p, h2, h3 {
-      orphans: 3; widows: 3;
-   }
-
-   h2, h3 {
-      page-break-after: avoid;
-   }
-}
-</style>
 
 
 
 </head>
 
 <body>
+
+
+
+
+<h1 class="title toc-ignore">Using RKeOps</h1>
+<h4 class="date">2021-02-17</h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#installing-rkeops">Installing RKeOps</a><ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#install-from-cran">Install from CRAN</a></li>
+<li><a href="#install-from-github-sources">Install from Github sources</a></li>
+<li><a href="#get-sources-and-install-from-local-repository">Get sources and install from local repository</a></li>
+</ul></li>
+<li><a href="#how-to-use-rkeops">How to use RKeOps</a><ul>
+<li><a href="#example">Example</a></li>
+<li><a href="#formula">Formula</a></li>
+<li><a href="#arguments">Arguments</a><ul>
+<li><a href="#input-matrix">Input matrix</a></li>
+<li><a href="#notations">Notations</a></li>
+</ul></li>
+<li><a href="#creating-a-new-operator">Creating a new operator</a></li>
+<li><a href="#run-computations">Run computations</a></li>
+<li><a href="#computing-gradients">Computing gradients</a></li>
+<li><a href="#rkeops-options">RKeOps options</a><ul>
+<li><a href="#compile-options">Compile options</a></li>
+<li><a href="#choosing-cpu-or-gpu-computing-at-runtime">Choosing CPU or GPU computing at runtime</a></li>
+<li><a href="#other-runtime-options">Other runtime options</a></li>
+</ul></li>
+<li><a href="#advanced-use">Advanced use</a><ul>
+<li><a href="#precision">Precision</a></li>
+<li><a href="#data-storage-orientation">Data storage orientation</a></li>
+<li><a href="#compilation-files-and-cleaning">Compilation files and cleaning</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
 <p>RKeOps is a R front-end for the KeOps C++/Cuda library. It provides standard functions that can be used in any R code.<br><br></p>
-
 <p>Thanks to RKeOps, you can use <strong>GPU computing directly inside R</strong> without the cost of developing a specific CUDA implementation of your custom mathematical operators.</p>
-
+<div id="installing-rkeops" class="section level1">
 <h1>Installing RKeOps</h1>
-
+<div id="requirements" class="section level2">
 <h2>Requirements</h2>
-
 <ul>
 <li>R (tested with R &gt;= 3.5)</li>
 <li>Cmake (&gt;=3.10)</li>
 <li>C++ compiler (g++ &gt;=7 or clang) for CPU computing or CUDA compiler (nvcc &gt;=10) and CUDA libs for GPU computing</li>
 </ul>
-
 <p><strong>Disclaimer:</strong> KeOps (including RKeOps) is not functional on Windows, it was only tested on Linux and MacOS.</p>
-
+</div>
+<div id="install-from-cran" class="section level2">
 <h2>Install from CRAN</h2>
-
 <blockquote>
 <p><strong>Note:</strong> RKeOps is avaible on CRAN but only for UNIX environment (GNU/Linux and MacOS) and not for Windows.</p>
 </blockquote>
-
-<pre><code class="r">install.packages(&quot;rkeops&quot;)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;rkeops&quot;</span>)</code></pre></div>
+</div>
+<div id="install-from-github-sources" class="section level2">
 <h2>Install from Github sources</h2>
-
 <blockquote>
 <p>!! In most recent version of devtools, the <code>args</code> argument is not available anymore and it is not possible to use <code>devtools::install_git</code>. Please check next section to install from sources.</p>
 </blockquote>
-
 <ul>
 <li>Install directly from Github (requires <code>git</code>)</li>
 </ul>
-
-<pre><code class="r">devtools::install_git(&quot;https://github.com/getkeops/keops&quot;, 
-                      subdir = &quot;rkeops&quot;, 
-                      args=&quot;--recursive&quot;)
-# not possible to use `devtools::intall_github()` because of the required submodule
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_git</span>(<span class="st">&quot;https://github.com/getkeops/keops&quot;</span>, 
+                      <span class="dt">subdir =</span> <span class="st">&quot;rkeops&quot;</span>, 
+                      <span class="dt">args=</span><span class="st">&quot;--recursive&quot;</span>)
+<span class="co"># not possible to use `devtools::intall_github()` because of the required submodule</span></code></pre></div>
+</div>
+<div id="get-sources-and-install-from-local-repository" class="section level2">
 <h2>Get sources and install from local repository</h2>
-
 <ul>
 <li><p>Get KeOps sources (bash command)</p>
-
-<pre><code class="bash">git clone --recurse-submodules=&quot;keops/lib/sequences&quot; https://github.com/getkeops/keops
-# or
-git clone https://github.com/getkeops/keops
-cd keops
-git submodule update --init -- keops/lib/sequences
-# other submodules are not necessary for RKeOps
-</code></pre></li>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone --recurse-submodules=<span class="st">&quot;keops/lib/sequences&quot;</span> https://github.com/getkeops/keops
+<span class="co"># or</span>
+<span class="fu">git</span> clone https://github.com/getkeops/keops
+<span class="bu">cd</span> keops
+<span class="fu">git</span> submodule update --init -- keops/lib/sequences
+<span class="co"># other submodules are not necessary for RKeOps</span></code></pre></div></li>
 <li><p>Install from local source in R (assuming you are in the <code>keops</code> directory)</p></li>
 </ul>
-
-<pre><code class="r">devtools::install(&quot;rkeops&quot;)
-</code></pre>
-
-<hr/>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;rkeops&quot;</span>)</code></pre></div>
+<hr />
+</div>
+</div>
+<div id="how-to-use-rkeops" class="section level1">
 <h1>How to use RKeOps</h1>
-
 <p>Load RKeOps in R:</p>
-
-<pre><code class="r">library(rkeops)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rkeops)
 ## 
-## You are using rkeops version 1.4.2
-</code></pre>
-
+## You are using rkeops version 1.4.2.2</code></pre></div>
 <p>RKeOps allows to define and compile new operators that run computations on GPU.</p>
-
+<div id="example" class="section level2">
 <h2>Example</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># implementation of a convolution with a Gaussian kernel</span>
+formula =<span class="st"> &quot;Sum_Reduction(Exp(-s * SqNorm2(x - y)) * b, 0)&quot;</span>
+<span class="co"># input arguments</span>
+args =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x = Vi(3)&quot;</span>,      <span class="co"># vector indexed by i (of dim 3)</span>
+         <span class="st">&quot;y = Vj(3)&quot;</span>,      <span class="co"># vector indexed by j (of dim 3)</span>
+         <span class="st">&quot;b = Vj(6)&quot;</span>,      <span class="co"># vector indexed by j (of dim 6)</span>
+         <span class="st">&quot;s = Pm(1)&quot;</span>)      <span class="co"># parameter (scalar) </span>
+<span class="co"># compilation</span>
+op &lt;-<span class="st"> </span><span class="kw">keops_kernel</span>(formula, args)
+<span class="co"># data and parameter values</span>
+nx &lt;-<span class="st"> </span><span class="dv">100</span>
+ny &lt;-<span class="st"> </span><span class="dv">150</span>
+X &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nx<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span>nx)   <span class="co"># matrix 100 x 3</span>
+Y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(ny<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span>ny)   <span class="co"># matrix 150 x 3</span>
+B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(ny<span class="op">*</span><span class="dv">6</span>), <span class="dt">nrow=</span>ny)   <span class="co"># matrix 150 x 6</span>
+s &lt;-<span class="st"> </span><span class="fl">0.2</span>
 
-<pre><code class="r"># implementation of a convolution with a Gaussian kernel
-formula = &quot;Sum_Reduction(Exp(-s * SqNorm2(x - y)) * b, 0)&quot;
-# input arguments
-args = c(&quot;x = Vi(3)&quot;,      # vector indexed by i (of dim 3)
-         &quot;y = Vj(3)&quot;,      # vector indexed by j (of dim 3)
-         &quot;b = Vj(6)&quot;,      # vector indexed by j (of dim 6)
-         &quot;s = Pm(1)&quot;)      # parameter (scalar) 
-# compilation
-op &lt;- keops_kernel(formula, args)
-# data and parameter values
-nx &lt;- 100
-ny &lt;- 150
-X &lt;- matrix(runif(nx*3), nrow=nx)   # matrix 100 x 3
-Y &lt;- matrix(runif(ny*3), nrow=ny)   # matrix 150 x 3
-B &lt;- matrix(runif(ny*6), nrow=ny)   # matrix 150 x 6
-s &lt;- 0.2
+<span class="co"># to run computation on CPU (default mode)</span>
+<span class="kw">use_cpu</span>()
+<span class="co"># to run computations on GPU (to be used only if relevant)</span>
+<span class="kw">use_gpu</span>()
 
-# to run computation on CPU (default mode)
-use_cpu()
-# to run computations on GPU (to be used only if relevant)
-use_gpu()
-
-# computation (order of the input arguments should be similar to `args`)
-res &lt;- op(list(X, Y, B, s))
-</code></pre>
-
+<span class="co"># computation (order of the input arguments should be similar to `args`)</span>
+res &lt;-<span class="st"> </span><span class="kw">op</span>(<span class="kw">list</span>(X, Y, B, s))</code></pre></div>
 <p>The different elements (formula, arguments, compilation, computation) in the previous example will be detailled in the next sections.</p>
-
+</div>
+<div id="formula" class="section level2">
 <h2>Formula</h2>
-
 <p>To use RKeOps and define new operators, you need to write the corresponding <em>formula</em> which is a text string defining a composition of mathematical operations. It should be characterized by two elements:</p>
-
-<ol>
-<li><p>a composition of generic functions applied to some input matrices, whose one of their dimensions is either indexed by \(i=1,&hellip;,M\) or \(j=1,&hellip;,N\)</p></li>
-<li><p>a reduction over indexes \(i=1,&hellip;,M\) (row-wise) or \(j=1,&hellip;,N\) (column-wise) of the \(M \times N\) matrix whose entries are defined by 1.</p></li>
+<ol style="list-style-type: decimal">
+<li><p>a composition of generic functions applied to some input matrices, whose one of their dimensions is either indexed by <span class="math inline">\(i=1,...,M\)</span> or <span class="math inline">\(j=1,...,N\)</span></p></li>
+<li><p>a reduction over indexes <span class="math inline">\(i=1,...,M\)</span> (row-wise) or <span class="math inline">\(j=1,...,N\)</span> (column-wise) of the <span class="math inline">\(M \times N\)</span> matrix whose entries are defined by 1.</p></li>
 </ol>
-
-<p>RKeOps implements a wide range of mathematical operators and reduction: please refers to 
-<a href="https://www.kernel-operations.io/keops/api/math-operations.html">https://www.kernel-operations.io/keops/api/math-operations.html</a> for more details.<br><br></p>
-
-<p><strong>Example:</strong> We want to implement the following kernel-based reduction (convolution with a Gaussian kernel): \[\sum_{j=1}^{N} \exp\Big(-\sigma || \mathbf x_i - \mathbf y_j ||_2^{\,2}\Big)\,\mathbf b_j\]
-with</p>
-
+<p>RKeOps implements a wide range of mathematical operators and reduction: please refers to <a href="https://www.kernel-operations.io/keops/api/math-operations.html" class="uri">https://www.kernel-operations.io/keops/api/math-operations.html</a> for more details.<br><br></p>
+<p><strong>Example:</strong> We want to implement the following kernel-based reduction (convolution with a Gaussian kernel): <span class="math display">\[\sum_{j=1}^{N} \exp\Big(-\sigma || \mathbf x_i - \mathbf y_j ||_2^{\,2}\Big)\,\mathbf b_j\]</span> with</p>
 <ul>
-<li><p>parameter: \(\sigma\in\mathbb R\)<br></p></li>
-<li><p>\(i\)-indexed variables \([\mathbf x_i]_{i=1,&hellip;,M} \in\mathbb R^{M\times 3}\)<br></p></li>
-<li><p>\(j\)-indexed variables \([\mathbf y_j]_{j=1,&hellip;,N} \in\mathbb R^{N\times 3}\) and \([\mathbf b_j]_{j=1,&hellip;,N} \in\mathbb R^{N\times 6}\)<br><br></p></li>
+<li><p>parameter: <span class="math inline">\(\sigma\in\mathbb R\)</span><br></p></li>
+<li><p><span class="math inline">\(i\)</span>-indexed variables <span class="math inline">\([\mathbf x_i]_{i=1,...,M} \in\mathbb R^{M\times 3}\)</span><br></p></li>
+<li><p><span class="math inline">\(j\)</span>-indexed variables <span class="math inline">\([\mathbf y_j]_{j=1,...,N} \in\mathbb R^{N\times 3}\)</span> and <span class="math inline">\([\mathbf b_j]_{j=1,...,N} \in\mathbb R^{N\times 6}\)</span><br><br></p></li>
 </ul>
-
 <p>In R, we can define the corresponding KeOps formula as a simple <strong>text string</strong>:</p>
-
-<pre><code class="r">formula = &quot;Sum_Reduction(Exp(-s * SqNorm2(x - y)) * b, 0)&quot;
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">formula =<span class="st"> &quot;Sum_Reduction(Exp(-s * SqNorm2(x - y)) * b, 0)&quot;</span></code></pre></div>
 <ul>
-<li><code>SqNorm2</code> = squared \(\ell_2\) norm</li>
+<li><code>SqNorm2</code> = squared <span class="math inline">\(\ell_2\)</span> norm</li>
 <li><code>Exp</code> = exponential</li>
-<li><code>Sum_reduction(..., 0)</code> = sum reduction over the dimension 0 i.e. sum on the \(j\)&#39;s (1 to sum over the \(i\)&#39;s)<br></li>
+<li><code>Sum_reduction(..., 0)</code> = sum reduction over the dimension 0 i.e. sum on the <span class="math inline">\(j\)</span>'s (1 to sum over the <span class="math inline">\(i\)</span>'s)<br></li>
 </ul>
-
+</div>
+<div id="arguments" class="section level2">
 <h2>Arguments</h2>
-
 <p>The formula describing your computation can take several input arguments: variables and parameters. The input variables will generally corresponds to rows or columns of your data matrices, you need to be cautious with their dimensions.</p>
-
+<div id="input-matrix" class="section level3">
 <h3>Input matrix</h3>
-
 <p>You can use two type of input matrices with RKeOps:<br></p>
-
 <ul>
-<li><p>ones whose rows (or columns) are indexed by \(i=1,&hellip;,M\) such as \(\mathbf X = [x_{ik}]_{M \times D}\)<br></p></li>
-<li><p>others whose rows (or columns) are indexed by \(j=1,&hellip;,N\) such as \(\mathbf Y = [y_{ik'}]_{N \times D'}\)<br><br></p></li>
+<li><p>ones whose rows (or columns) are indexed by <span class="math inline">\(i=1,...,M\)</span> such as <span class="math inline">\(\mathbf X = [x_{ik}]_{M \times D}\)</span><br></p></li>
+<li><p>others whose rows (or columns) are indexed by <span class="math inline">\(j=1,...,N\)</span> such as <span class="math inline">\(\mathbf Y = [y_{ik'}]_{N \times D'}\)</span><br><br></p></li>
 </ul>
-
-<p>The dimensions over indexes \(i\) or \(j\) are called the <strong>outer dimensions</strong> (i.e. \(M\) or \(N\)). The other dimensions (i.e. \(D\) or \(D'\)) are called the <strong>inner dimensions</strong>. These terms refer to the contiguity of the data in memory:<br></p>
-
+<p>The dimensions over indexes <span class="math inline">\(i\)</span> or <span class="math inline">\(j\)</span> are called the <strong>outer dimensions</strong> (i.e. <span class="math inline">\(M\)</span> or <span class="math inline">\(N\)</span>). The other dimensions (i.e. <span class="math inline">\(D\)</span> or <span class="math inline">\(D'\)</span>) are called the <strong>inner dimensions</strong>. These terms refer to the contiguity of the data in memory:<br></p>
 <ul>
-<li><p><strong>Outer dimensions</strong> \(M\) and \(N\) (over indexes \(i\) and \(j\) respectively) can be <strong>very large</strong>, even to large for GPU memory.<br></p></li>
-<li><p><strong>Inner dimensions</strong> \(D\) and \(D'\) should be <strong>small</strong> enough to fit in GPU memory, in particular to ensure data colocality and avoid useless memory transfers. Corresponding columns (or rows) should be contiguous in memory (this point is handled for you in RKeOps, see this <a href="#data-storage-orientation">section</a>).<br></p></li>
+<li><p><strong>Outer dimensions</strong> <span class="math inline">\(M\)</span> and <span class="math inline">\(N\)</span> (over indexes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> respectively) can be <strong>very large</strong>, even to large for GPU memory.<br></p></li>
+<li><p><strong>Inner dimensions</strong> <span class="math inline">\(D\)</span> and <span class="math inline">\(D'\)</span> should be <strong>small</strong> enough to fit in GPU memory, in particular to ensure data colocality and avoid useless memory transfers. Corresponding columns (or rows) should be contiguous in memory (this point is handled for you in RKeOps, see this <a href="#data-storage-orientation">section</a>).<br></p></li>
 </ul>
-
 <blockquote>
 <p><strong><em>Note 1:</em></strong> The outer dimension can correspond to the rows or the columns of the input matrices (and vice-versa for the inner dimension). The optimal orientation of input matrices is discussed in this <a href="#data-storage-orientation">section</a> .</p>
-
-<p><strong><em>Note 2:</em></strong> All matrices indexed by \(i\) should have the same outer dimension \(M\) over \(i\), same for all matrices indexed by \(j\) (outer dimension \(N\)). Only the inner dimensions \(D\) and \(D'\) should be known for the compilation of your operators. The respective outer dimensions \(M\) and \(N\) are set at runtime (and can change from one run to another).<br></p>
 </blockquote>
-
+<blockquote>
+<p><strong><em>Note 2:</em></strong> All matrices indexed by <span class="math inline">\(i\)</span> should have the same outer dimension <span class="math inline">\(M\)</span> over <span class="math inline">\(i\)</span>, same for all matrices indexed by <span class="math inline">\(j\)</span> (outer dimension <span class="math inline">\(N\)</span>). Only the inner dimensions <span class="math inline">\(D\)</span> and <span class="math inline">\(D'\)</span> should be known for the compilation of your operators. The respective outer dimensions <span class="math inline">\(M\)</span> and <span class="math inline">\(N\)</span> are set at runtime (and can change from one run to another).<br></p>
+</blockquote>
+</div>
+<div id="notations" class="section level3">
 <h3>Notations</h3>
-
-<p>Input arguments of the formula are defined by using keywords, they can be of different types: </p>
-
-<table><thead>
-<tr>
+<p>Input arguments of the formula are defined by using keywords, they can be of different types:</p>
+<table>
+<thead>
+<tr class="header">
 <th align="left">keyword</th>
 <th align="left">meaning</th>
 </tr>
-</thead><tbody>
-<tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td align="left"><code>Vi</code></td>
 <td align="left">variable indexed by <code>i</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td align="left"><code>Vj</code></td>
 <td align="left">variable indexed by <code>j</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td align="left"><code>Pm</code></td>
 <td align="left">parameter</td>
 </tr>
-</tbody></table>
-
+</tbody>
+</table>
 <p>You should provide a vector of text string specifying the name and the type of all arguments in your formula.</p>
-
-<p>Each keyword takes as parameter the inner dimension of the corresponding object. For instance, to define an input variable indexed by \(i\) corresponding to a \(D\)-dimensional vector, you can use <code>&quot;Vi(D)&quot;</code>, same for a \(D\)-dimensional variable indexed by \(j\) being <code>&quot;Vj(D)&quot;</code> or a \(D\)-dimensional parameter <code>&quot;Pm(D)&quot;</code>.<br><br></p>
-
+<p>Each keyword takes as parameter the inner dimension of the corresponding object. For instance, to define an input variable indexed by <span class="math inline">\(i\)</span> corresponding to a <span class="math inline">\(D\)</span>-dimensional vector, you can use <code>&quot;Vi(D)&quot;</code>, same for a <span class="math inline">\(D\)</span>-dimensional variable indexed by <span class="math inline">\(j\)</span> being <code>&quot;Vj(D)&quot;</code> or a <span class="math inline">\(D\)</span>-dimensional parameter <code>&quot;Pm(D)&quot;</code>.<br><br></p>
 <p>The vector of arguments should be</p>
-
-<pre><code class="r">args = c(&quot;&lt;name1&gt;=&lt;type1&gt;(dim1)&quot;, &quot;&lt;name2&gt;=&lt;type2&gt;(dim2)&quot;, &quot;&lt;nameX&gt;=&lt;typeX&gt;(dimX)&quot;)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">args =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;&lt;name1&gt;=&lt;type1&gt;(dim1)&quot;</span>, <span class="st">&quot;&lt;name2&gt;=&lt;type2&gt;(dim2)&quot;</span>, <span class="st">&quot;&lt;nameX&gt;=&lt;typeX&gt;(dimX)&quot;</span>)</code></pre></div>
 <p>where</p>
-
 <ul>
 <li><code>&lt;nameX&gt;</code> is the name</li>
 <li><code>&lt;type1&gt;</code> is the type (among <code>Vi</code>, <code>Vj</code> or <code>Pm</code>)</li>
 <li><code>&lt;dimX&gt;</code> is the <strong>inner dimension</strong></li>
 </ul>
-
-<p>of the <code>X</code>\(^\text{th}\) variable in the formula.<br><br></p>
-
+<p>of the <code>X</code><span class="math inline">\(^\text{th}\)</span> variable in the formula.<br><br></p>
 <blockquote>
 <p><strong><em>Important:</em></strong> The names should correspond to the ones used in the formula. The input parameter order will be the one used when calling the compiled operator.</p>
 </blockquote>
-
-<p><strong>Example:</strong> We define the corresponding arguments of the previous <a href="#formula">formula</a>, i.e. parameters or variables indexed by \(i\) or \(j\) with their corresponding inner dimensions:</p>
-
-<pre><code class="r">args = c(&quot;x = Vi(3)&quot;,      # vector indexed by i (of dim 3)
-         &quot;y = Vj(3)&quot;,      # vector indexed by j (of dim 3)
-         &quot;b = Vj(6)&quot;,      # vector indexed by j (of dim 6)
-         &quot;s = Pm(1)&quot;)      # parameter (scalar) 
-</code></pre>
-
+<p><strong>Example:</strong> We define the corresponding arguments of the previous <a href="#formula">formula</a>, i.e. parameters or variables indexed by <span class="math inline">\(i\)</span> or <span class="math inline">\(j\)</span> with their corresponding inner dimensions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">args =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x = Vi(3)&quot;</span>,      <span class="co"># vector indexed by i (of dim 3)</span>
+         <span class="st">&quot;y = Vj(3)&quot;</span>,      <span class="co"># vector indexed by j (of dim 3)</span>
+         <span class="st">&quot;b = Vj(6)&quot;</span>,      <span class="co"># vector indexed by j (of dim 6)</span>
+         <span class="st">&quot;s = Pm(1)&quot;</span>)      <span class="co"># parameter (scalar) </span></code></pre></div>
+</div>
+</div>
+<div id="creating-a-new-operator" class="section level2">
 <h2>Creating a new operator</h2>
-
 <p>By using the function <code>keops_kernel</code>, based on the formula and its arguments that we previously defined, we can compile and load into R the corresponding operator:</p>
-
-<pre><code class="r"># compilation
-op &lt;- keops_kernel(formula, args)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># compilation</span>
+op &lt;-<span class="st"> </span><span class="kw">keops_kernel</span>(formula, args)</code></pre></div>
 <p>Calling <code>keops_kernel(formula, args)</code> returns a function that can be later used to run computations on your data with your value of parameters. You should only be cautious with the similarity of each argument inner dimension.<br><br></p>
-
 <p>The returned function (here <code>op</code>) expects a list of input values in the order specified in the vector <code>args</code>.</p>
-
 <p>The result of compilation (shared library file) is stored on the system and will be reused when calling again the function <code>keops_kernel</code> on the same formula with the same arguments and the same conditions (e.g. precision), to avoid useless recompilation.</p>
-
+</div>
+<div id="run-computations" class="section level2">
 <h2>Run computations</h2>
-
 <p>We generate data with inner dimensions (number of columns) corresponding to each arguments expected by the operator <code>op</code>. The function <code>op</code> takes in input a list of input arguments. If the list if named, <code>op</code> checks the association between the supplied names and the names of the formula arguments. In this case only, it can also correct the order of the input list to match the expected order of arguments.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data and parameter values</span>
+nx &lt;-<span class="st"> </span><span class="dv">100</span>
+ny &lt;-<span class="st"> </span><span class="dv">150</span>
+X &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nx<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span>nx)   <span class="co"># matrix 100 x 3</span>
+Y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(ny<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span>ny)   <span class="co"># matrix 150 x 3</span>
+B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(ny<span class="op">*</span><span class="dv">6</span>), <span class="dt">nrow=</span>ny)   <span class="co"># matrix 150 x 6</span>
+s &lt;-<span class="st"> </span><span class="fl">0.2</span>
 
-<pre><code class="r"># data and parameter values
-nx &lt;- 100
-ny &lt;- 150
-X &lt;- matrix(runif(nx*3), nrow=nx)   # matrix 100 x 3
-Y &lt;- matrix(runif(ny*3), nrow=ny)   # matrix 150 x 3
-B &lt;- matrix(runif(ny*6), nrow=ny)   # matrix 150 x 6
-s &lt;- 0.2
+<span class="co"># to run computation on CPU (default mode)</span>
+<span class="kw">use_cpu</span>()
+<span class="co"># to run computations on GPU (to be used only if relevant)</span>
+<span class="kw">use_gpu</span>()
 
-# to run computation on CPU (default mode)
-use_cpu()
-# to run computations on GPU (to be used only if relevant)
-use_gpu()
-
-# computation (order of the input arguments should be similar to `args`)
-res &lt;- op(list(x, y, beta, s))
-</code></pre>
-
+<span class="co"># computation (order of the input arguments should be similar to `args`)</span>
+res &lt;-<span class="st"> </span><span class="kw">op</span>(<span class="kw">list</span>(x, y, beta, s))</code></pre></div>
+</div>
+<div id="computing-gradients" class="section level2">
 <h2>Computing gradients</h2>
-
 <p>You can define gradients directly in the formula, e.g.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># defining a formula with a Gradient</span>
+formula &lt;-<span class="st"> &quot;Grad(Sum_Reduction(SqNorm2(x-y), 0), x, eta)&quot;</span>
+args &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x=Vi(0,3)&quot;</span>, <span class="st">&quot;y=Vj(1,3)&quot;</span>, <span class="st">&quot;eta=Vi(2,1)&quot;</span>)
+<span class="co"># compiling the corresponding operator</span>
+op &lt;-<span class="st"> </span><span class="kw">keops_kernel</span>(formula, args)
 
-<pre><code class="r"># defining a formula with a Gradient
-formula &lt;- &quot;Grad(Sum_Reduction(SqNorm2(x-y), 0), x, eta)&quot;
-args &lt;- c(&quot;x=Vi(0,3)&quot;, &quot;y=Vj(1,3)&quot;, &quot;eta=Vi(2,1)&quot;)
-# compiling the corresponding operator
-op &lt;- keops_kernel(formula, args)
+<span class="co"># data</span>
+nx &lt;-<span class="st"> </span><span class="dv">100</span>
+ny &lt;-<span class="st"> </span><span class="dv">150</span>
+x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nx<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span>nx, <span class="dt">ncol=</span><span class="dv">3</span>)     <span class="co"># matrix 100 x 3</span>
+y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(ny<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span>ny, <span class="dt">ncol=</span><span class="dv">3</span>)     <span class="co"># matrix 150 x 3</span>
+eta &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nx<span class="op">*</span><span class="dv">1</span>), <span class="dt">nrow=</span>nx, <span class="dt">ncol=</span><span class="dv">1</span>)   <span class="co"># matrix 100 x 1</span>
 
-# data
-nx &lt;- 100
-ny &lt;- 150
-x &lt;- matrix(runif(nx*3), nrow=nx, ncol=3)     # matrix 100 x 3
-y &lt;- matrix(runif(ny*3), nrow=ny, ncol=3)     # matrix 150 x 3
-eta &lt;- matrix(runif(nx*1), nrow=nx, ncol=1)   # matrix 100 x 1
-
-# computation
-input &lt;- list(x, y, eta)
-res &lt;- op(input)
-</code></pre>
-
+<span class="co"># computation</span>
+input &lt;-<span class="st"> </span><span class="kw">list</span>(x, y, eta)
+res &lt;-<span class="st"> </span><span class="kw">op</span>(input)</code></pre></div>
 <p>where <code>eta</code> is the new variable at which the gradient is computed, its dimension should correspond to the output dimension of the operation inside the gradient (here <code>SqNorm2(x-y)</code> is of dimension 1).</p>
-
 <p>You can also use the function <code>keops_grad</code> to derive existing KeOps operators.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># defining an operator (reduction on squared distance)</span>
+formula &lt;-<span class="st"> &quot;Sum_Reduction(SqNorm2(x-y), 0)&quot;</span>
+args &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x=Vi(0,3)&quot;</span>, <span class="st">&quot;y=Vj(1,3)&quot;</span>)
+op &lt;-<span class="st"> </span><span class="kw">keops_kernel</span>(formula, args)
+<span class="co"># defining its gradient regarding x</span>
+grad_op &lt;-<span class="st"> </span><span class="kw">keops_grad</span>(op, <span class="dt">var=</span><span class="st">&quot;x&quot;</span>)
 
-<pre><code class="r"># defining an operator (reduction on squared distance)
-formula &lt;- &quot;Sum_Reduction(SqNorm2(x-y), 0)&quot;
-args &lt;- c(&quot;x=Vi(0,3)&quot;, &quot;y=Vj(1,3)&quot;)
-op &lt;- keops_kernel(formula, args)
-# defining its gradient regarding x
-grad_op &lt;- keops_grad(op, var=&quot;x&quot;)
+<span class="co"># data</span>
+nx &lt;-<span class="st"> </span><span class="dv">100</span>
+ny &lt;-<span class="st"> </span><span class="dv">150</span>
+x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nx<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span>nx, <span class="dt">ncol=</span><span class="dv">3</span>)     <span class="co"># matrix 100 x 3</span>
+y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(ny<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span>ny, <span class="dt">ncol=</span><span class="dv">3</span>)     <span class="co"># matrix 150 x 3</span>
+eta &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nx<span class="op">*</span><span class="dv">1</span>), <span class="dt">nrow=</span>nx, <span class="dt">ncol=</span><span class="dv">1</span>)   <span class="co"># matrix 100 x 1</span>
 
-# data
-nx &lt;- 100
-ny &lt;- 150
-x &lt;- matrix(runif(nx*3), nrow=nx, ncol=3)     # matrix 100 x 3
-y &lt;- matrix(runif(ny*3), nrow=ny, ncol=3)     # matrix 150 x 3
-eta &lt;- matrix(runif(nx*1), nrow=nx, ncol=1)   # matrix 100 x 1
-
-# computation
-input &lt;- list(x, y, eta)
-res &lt;- grad_op(input)
-</code></pre>
-
+<span class="co"># computation</span>
+input &lt;-<span class="st"> </span><span class="kw">list</span>(x, y, eta)
+res &lt;-<span class="st"> </span><span class="kw">grad_op</span>(input)</code></pre></div>
 <p><strong>Note:</strong> when defining a gradient, the operator created by <code>keops_grad</code>requires an additional variable whose inner dimension corresponds to the output dimension of the derived formula (here <code>SqNorm2(x-y)</code> is a real-valued function, hence dimension 1) and outer dimension corresponds to the outer dimension of the variable regarding which the gradient is taken (here <code>x</code>).</p>
-
+</div>
+<div id="rkeops-options" class="section level2">
 <h2>RKeOps options</h2>
-
 <p>RKeOps behavior is driven by specific options in <code>R</code> global options scope. Such options are set up when loading RKeOps (i.e. by calling <code>library(rkeops)</code>).</p>
-
 <p>You can get the current values of RKeOps options with</p>
-
-<pre><code class="r">get_rkeops_options()
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_rkeops_options</span>()</code></pre></div>
 <p>To (re)set RKeOps options to default values, run:</p>
-
-<pre><code class="r">set_rkeops_options()
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_rkeops_options</span>()</code></pre></div>
 <p>To set a specific option with a given value, you can do:</p>
-
-<pre><code class="r">set_rkeops_option(option, value)
-# `option` = text string, name of the option to set up
-# `value` = whatever value to assign to the chosen option
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_rkeops_option</span>(option, value)
+<span class="co"># `option` = text string, name of the option to set up</span>
+<span class="co"># `value` = whatever value to assign to the chosen option</span></code></pre></div>
 <p>Check <code>?set_rkeops_option</code> for more details.</p>
-
+<div id="compile-options" class="section level3">
 <h3>Compile options</h3>
-
 <ul>
 <li><code>use_cuda_if_possible</code>: by default, user-defined operators are compiled for GPU if CUDA is available (and compiled for CPU otherwise).</li>
 </ul>
-
-<pre><code class="r"># enable compiling for GPU if available (not necessary if using default options)
-compile4gpu()
-# or equivalently
-set_rkeops_option(&quot;use_cuda_if_possible&quot;, 1)
-# disable compiling for GPU
-set_rkeops_option(&quot;use_cuda_if_possible&quot;, 0)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># enable compiling for GPU if available (not necessary if using default options)</span>
+<span class="kw">compile4gpu</span>()
+<span class="co"># or equivalently</span>
+<span class="kw">set_rkeops_option</span>(<span class="st">&quot;use_cuda_if_possible&quot;</span>, <span class="dv">1</span>)
+<span class="co"># disable compiling for GPU</span>
+<span class="kw">set_rkeops_option</span>(<span class="st">&quot;use_cuda_if_possible&quot;</span>, <span class="dv">0</span>)</code></pre></div>
 <ul>
 <li><code>precision</code>: by default, user-defined operators are compiled to use float 32bits for computations (faster than float 64bits or double, compensated sum is available to reduce errors inherent to float 32bits operations)</li>
 </ul>
-
-<pre><code class="r">set_rkeops_option(&quot;precision&quot;, &quot;float&quot;)    # float 32bits (default)
-set_rkeops_option(&quot;precision&quot;, &quot;double&quot;)   # float 64bits
-</code></pre>
-
-<p>You can directly change the precision used in compiled operators with the 
-functions <code>compile4float32</code> and <code>compile4float64</code> which respectively 
-enable float 32bits precision (default) and float 64bits (or double) precision.</p>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_rkeops_option</span>(<span class="st">&quot;precision&quot;</span>, <span class="st">&quot;float&quot;</span>)    <span class="co"># float 32bits (default)</span>
+<span class="kw">set_rkeops_option</span>(<span class="st">&quot;precision&quot;</span>, <span class="st">&quot;double&quot;</span>)   <span class="co"># float 64bits</span></code></pre></div>
+<p>You can directly change the precision used in compiled operators with the functions <code>compile4float32</code> and <code>compile4float64</code> which respectively enable float 32bits precision (default) and float 64bits (or double) precision.</p>
 <ul>
-<li>other compile options (including boolean value to enable verbosity or to 
-add debugging flag), see <code>?compile_options</code></li>
+<li>other compile options (including boolean value to enable verbosity or to add debugging flag), see <code>?compile_options</code></li>
 </ul>
-
+</div>
+<div id="choosing-cpu-or-gpu-computing-at-runtime" class="section level3">
 <h3>Choosing CPU or GPU computing at runtime</h3>
-
 <p>By default, RKeOps runs computations on CPU (even for GPU-compiled operators). To enable GPU computing, you can run (before calling your operator):</p>
-
-<pre><code class="r">use_gpu()
-# see `?runtime_options` for a more advanced use of GPU inside RKeOps
-</code></pre>
-
-<p>You can also specify the GPU id that you want to use, e.g. <code>use_gpu(device=0)</code> 
-to use GPU 0 (default) for instance.</p>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">use_gpu</span>()
+<span class="co"># see `?runtime_options` for a more advanced use of GPU inside RKeOps</span></code></pre></div>
+<p>You can also specify the GPU id that you want to use, e.g. <code>use_gpu(device=0)</code> to use GPU 0 (default) for instance.</p>
 <p>To deactivate GPU computations, you can run <code>use_cpu()</code>.</p>
-
 <blockquote>
 <p>In CPU mode, you can control the number of CPU cores used by RKeOps for computations, e.g. with <code>use_cpu(ncore = 2)</code> to run on 2 cores.</p>
 </blockquote>
-
+</div>
+<div id="other-runtime-options" class="section level3">
 <h3>Other runtime options</h3>
-
 <ul>
 <li><code>device_id</code>: choose on which GPU the computations will be done, default is 0.</li>
 </ul>
-
-<pre><code class="r">set_rkeops_option(&quot;device_id&quot;, 0)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_rkeops_option</span>(<span class="st">&quot;device_id&quot;</span>, <span class="dv">0</span>)</code></pre></div>
 <p><strong><em>Note</em></strong>: We recommend to handle GPU assignation outside RKeOps, for instance by setting the environment variable <code>CUDA_VISIBLE_DEVICES</code>. Thus, you can keep the default GPU device id = 0 in RKeOps.</p>
-
 <ul>
 <li>Other runtime options, see <code>?runtime_options</code></li>
 </ul>
-
+</div>
+</div>
+<div id="advanced-use" class="section level2">
 <h2>Advanced use</h2>
-
+<div id="precision" class="section level3">
 <h3>Precision</h3>
-
 <p>By default, RKeOps uses float 32bits precision for computations. Since R only considers 64bits floating point numbers, if you want to use float 32bits, input data and output results will be casted befors and after computations respectively in your RKeOps operator. If your application requires to use float 64bits (double) precision, keep in mind that you will suffer a performance loss (potentially not an issue on high-end GPUs). In any case, compensated summation reduction is available in KeOps to correct for 32bits floating point arithmetic errors.</p>
-
+</div>
+<div id="data-storage-orientation" class="section level3">
 <h3>Data storage orientation</h3>
-
-<p>In R, matrices are stored using a column-major order, meaning that a \(M \times D\) matrix is stored in memory as a succession of \(D\) vectors of length \(M\) representing each of its columns. A consequence is that two successive entries of a column are contiguous in memory, but two successive entries of a row are separated by \(M\) elements. See this <a href="https://en.wikipedia.org/wiki/Row-_and_column-major_order">page</a> for more details.<br><br></p>
-
-<p>For RKeOps to be computationnally efficient, it is important that elements of the input matrices are contiguous along the inner dimensions \(D\) (or \(D'\)). Thus, it is recommended to use input matrices where the outer dimension (i.e. indexes \(i\) or \(j\)) are the columns, and inner dimensions the rows, e.g. transpose matrices \(\mathbf X^{t} = [x_{ki}]_{D \times M}\) or \(\mathbf Y^{t} = [y_{k'i}]_{D' \times N}\).</p>
-
+<p>In R, matrices are stored using a column-major order, meaning that a <span class="math inline">\(M \times D\)</span> matrix is stored in memory as a succession of <span class="math inline">\(D\)</span> vectors of length <span class="math inline">\(M\)</span> representing each of its columns. A consequence is that two successive entries of a column are contiguous in memory, but two successive entries of a row are separated by <span class="math inline">\(M\)</span> elements. See this <a href="https://en.wikipedia.org/wiki/Row-_and_column-major_order">page</a> for more details.<br><br></p>
+<p>For RKeOps to be computationnally efficient, it is important that elements of the input matrices are contiguous along the inner dimensions <span class="math inline">\(D\)</span> (or <span class="math inline">\(D'\)</span>). Thus, it is recommended to use input matrices where the outer dimension (i.e. indexes <span class="math inline">\(i\)</span> or <span class="math inline">\(j\)</span>) are the columns, and inner dimensions the rows, e.g. transpose matrices <span class="math inline">\(\mathbf X^{t} = [x_{ki}]_{D \times M}\)</span> or <span class="math inline">\(\mathbf Y^{t} = [y_{k'i}]_{D' \times N}\)</span>.</p>
 <blockquote>
-<p><strong><em>Important:</em></strong> In machine learning and statistics, we generally use data matrices where each sample/observation/individual is a row, i.e. matrices where the outer dimensions correspond to rows, e.g. \(\mathbf X = [x_{ik}]_{M \times D}\), \(\mathbf Y = [y_{ik'}]_{N \times D'}\).<br><br> This is the default using case of RKeOps. RKeOps will then automatically convert your matrices to their transpose, where the outer dimensions correspond to columns.<br><br> If you want to use data where the inner dimension directly corresponds to rows of your matrices, i.e. \(\mathbf X^{t} = [x_{ki}]_{D \times M}\) or \(\mathbf Y^{t} = [y_{k'i}]_{D' \times N}\), you just need to specify the input parameter <code>inner_dim=0</code> when calling your operator.</p>
+<p><strong><em>Important:</em></strong> In machine learning and statistics, we generally use data matrices where each sample/observation/individual is a row, i.e. matrices where the outer dimensions correspond to rows, e.g. <span class="math inline">\(\mathbf X = [x_{ik}]_{M \times D}\)</span>, <span class="math inline">\(\mathbf Y = [y_{ik'}]_{N \times D'}\)</span>.<br><br> This is the default using case of RKeOps. RKeOps will then automatically convert your matrices to their transpose, where the outer dimensions correspond to columns.<br><br> If you want to use data where the inner dimension directly corresponds to rows of your matrices, i.e. <span class="math inline">\(\mathbf X^{t} = [x_{ki}]_{D \times M}\)</span> or <span class="math inline">\(\mathbf Y^{t} = [y_{k'i}]_{D' \times N}\)</span>, you just need to specify the input parameter <code>inner_dim=0</code> when calling your operator.</p>
 </blockquote>
-
 <p>Example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># standard column reduction of a matrix product</span>
+op &lt;-<span class="st"> </span><span class="kw">keops_kernel</span>(<span class="dt">formula =</span> <span class="st">&quot;Sum_Reduction((x|y), 1)&quot;</span>,
+                   <span class="dt">args =</span> <span class="kw">c</span>(<span class="st">&quot;x=Vi(3)&quot;</span>, <span class="st">&quot;y=Vj(3)&quot;</span>))
 
-<pre><code class="r"># standard column reduction of a matrix product
-op &lt;- keops_kernel(formula = &quot;Sum_Reduction((x|y), 1)&quot;,
-                   args = c(&quot;x=Vi(3)&quot;, &quot;y=Vj(3)&quot;))
+<span class="co"># data (inner dimension = columns)</span>
+nx &lt;-<span class="st"> </span><span class="dv">10</span>
+ny &lt;-<span class="st"> </span><span class="dv">15</span>
+<span class="co"># x_i = rows of the matrix X</span>
+X &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nx<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span>nx, <span class="dt">ncol=</span><span class="dv">3</span>)
+<span class="co"># y_j = rows of the matrix Y</span>
+Y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(ny<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span>ny, <span class="dt">ncol=</span><span class="dv">3</span>)
+<span class="co"># computing the result (here, by default `inner_dim=1` and columns corresponds</span>
+<span class="co"># to the inner dimension)</span>
+res &lt;-<span class="st"> </span><span class="kw">op</span>(<span class="kw">list</span>(X,Y))
 
-# data (inner dimension = columns)
-nx &lt;- 10
-ny &lt;- 15
-# x_i = rows of the matrix X
-X &lt;- matrix(runif(nx*3), nrow=nx, ncol=3)
-# y_j = rows of the matrix Y
-Y &lt;- matrix(runif(ny*3), nrow=ny, ncol=3)
-# computing the result (here, by default `inner_dim=1` and columns corresponds
-# to the inner dimension)
-res &lt;- op(list(X,Y))
-
-# data (inner dimension = rows)
-nx &lt;- 10
-ny &lt;- 15
-# x_i = columns of the matrix X
-X &lt;- matrix(runif(nx*3), nrow=3, ncol=nx)
-# y_j = columns of the matrix Y
-Y &lt;- matrix(runif(ny*3), nrow=3, ncol=ny)
-# computing the result (we specify `inner_dim=0` to indicate that rows
-# corresponds to the inner dimension)
-res &lt;- op(list(X,Y), inner_dim=0)
-</code></pre>
-
+<span class="co"># data (inner dimension = rows)</span>
+nx &lt;-<span class="st"> </span><span class="dv">10</span>
+ny &lt;-<span class="st"> </span><span class="dv">15</span>
+<span class="co"># x_i = columns of the matrix X</span>
+X &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nx<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span><span class="dv">3</span>, <span class="dt">ncol=</span>nx)
+<span class="co"># y_j = columns of the matrix Y</span>
+Y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(ny<span class="op">*</span><span class="dv">3</span>), <span class="dt">nrow=</span><span class="dv">3</span>, <span class="dt">ncol=</span>ny)
+<span class="co"># computing the result (we specify `inner_dim=0` to indicate that rows</span>
+<span class="co"># corresponds to the inner dimension)</span>
+res &lt;-<span class="st"> </span><span class="kw">op</span>(<span class="kw">list</span>(X,Y), <span class="dt">inner_dim=</span><span class="dv">0</span>)</code></pre></div>
+</div>
+<div id="compilation-files-and-cleaning" class="section level3">
 <h3>Compilation files and cleaning</h3>
-
 <p>The compilation of new operators produces shared library (or share object <code>.so</code>) files stored in a <code>build</code> sub-directory of the package installation directory, to be reused and avoid recompilation of already defined operators.</p>
-
 <p>You can check where your compiled operators are stored by running <code>get_build_dir()</code>. To clean RKeOps install and remove all shared library files, you can run <code>clean_rkeops()</code>.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 </body>
-
 </html>

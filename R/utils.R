@@ -132,9 +132,8 @@ get_os <- function() {
     # get OS id given by R
     os_id <- str_extract(string = R.version$os, 
                          pattern = "mingw32|windows|darwin|linux")
-    # check if error
     if(is.na(os_id)) {
-        stop(str_c("Issue with os:", os_id, "not supported.", sep = " "))
+        os_id <- "unknown"
     }
     # return OS name
     os_name <- switch(
@@ -143,6 +142,7 @@ get_os <- function() {
         "darwin" = "macos",
         "mingw32" = "windows",
         "windows" = "windows",
+        R.version$os
     )
     return(os_name)
 }
@@ -168,6 +168,25 @@ is_installed <- function() {
     out_compile <- tryCatch(is_compiled(), error = function(e) return(0))
     out_file <- dir.exists(file.path(get_pkg_dir(), "include"))
     return(out_compile & out_file)
+}
+
+#' Print message if used on startup or raise error otherwise
+#' @keywords internal
+#' @description
+#' Different behavior for message raised by checks.
+#' @details 
+#' If `onLoad=TRUE`, print the message `msg`. If `onLoad=FALSE`, raise on error 
+#' with message `msg`.
+#' @param msg character string, text message.
+#' @param onLoad boolean, indicating whether the function is called from 
+#' startup or not.
+#' @author Ghislain Durif
+msg_or_error <- function(msg, onLoad=FALSE) {
+    if(onLoad) {
+        message(msg)
+    } else {
+        stop(msg)
+    }
 }
 
 #' Load function from dll shared library for user-defined operator
