@@ -2,25 +2,77 @@
 knitr::opts_chunk$set(
   collapse = TRUE,
   progress = TRUE,
-  warning = FALSE
+  warning = FALSE,
+  eval = FALSE
 )
 
-## ----install, eval=FALSE------------------------------------------------------
+## ----install------------------------------------------------------------------
 #  install.packages("rkeops")
 
-## ----install_github, eval=FALSE-----------------------------------------------
-#  devtools::install_git("https://github.com/getkeops/keops",
-#                        subdir = "rkeops",
-#                        args="--recursive")
-#  # not possible to use `devtools::intall_github()` because of the required submodule
+## ----install_github-----------------------------------------------------------
+#  install.packages("remotes")
+#  remotes::install_github("getkeops/keops", subdir = "rkeops")
 
-## ----install_src, eval=FALSE--------------------------------------------------
-#  devtools::install("rkeops")
+## ----install_requirements-----------------------------------------------------
+#  # load rkeops
+#  library(rkeops)
+#  # create a dedicated Python environment with reticulate (to be done only once)
+#  reticulate::virtualenv_create("rkeops")
+#  # activate the dedicated Python environment
+#  reticulate::use_virtualenv(virtualenv = "rkeops", required = TRUE)
+#  # install rkeops requirements (to be done only once)
+#  install_rkeops()
 
 ## ----setup--------------------------------------------------------------------
-library(rkeops)
+#  # load rkeops
+#  library(rkeops)
+#  # activate the dedicated Python environment
+#  reticulate::use_virtualenv(virtualenv = "rkeops", required = TRUE)
 
-## ----full_example, eval=FALSE-------------------------------------------------
+## ----check--------------------------------------------------------------------
+#  check_rkeops()
+
+## -----------------------------------------------------------------------------
+#  # to run computation on CPU (default mode)
+#  rkeops_use_cpu()
+#  # OR
+#  # to run computations on GPU (to be used only if relevant)
+#  rkeops_use_gpu()
+#  
+#  # Data
+#  M <- 10000
+#  N <- 15000
+#  x <- matrix(runif(N * 3), nrow = M, ncol = 3) # arbitrary R matrix representing
+#                                                # 10000 data points in R^3
+#  y <- matrix(runif(M * 3), nrow = N, ncol = 3) # arbitrary R matrix representing
+#                                                # 15000 data points in R^3
+#  s <- 0.1                                      # scale parameter
+#  
+#  # Turn our Tensors into KeOps symbolic variables:
+#  x_i <- LazyTensor(x, "i")     # symbolic object representing an arbitrary row of x,
+#                                # indexed by the letter "i"
+#  y_j <- LazyTensor(y, "j")     # symbolic object representing an arbitrary row of y,
+#                                # indexed by the letter "j"
+#  
+#  # Perform large-scale computations, without memory overflows:
+#  D_ij <- sum((x_i - y_j)^2)    # symbolic matrix of pairwise squared distances,
+#                                # with 10000 rows and 15000 columns
+#  
+#  K_ij <- exp(- D_ij / s^2)     # symbolic matrix, 10000 rows and 15000 columns
+#  
+#  # D_ij and K_ij are only symbolic at that point, no computation is done
+#  
+#  # Computing the result without storing D_ij and K_ij:
+#  a_j <- sum(K_ij, index = "i") # actual R matrix (in fact a row vector of
+#                                # length 15000 here)
+#                                # containing the column sums of K_ij
+#                                # (i.e. the sums over the "i" index, for each
+#                                # "j" index)
+
+## ----eval=FALSE---------------------------------------------------------------
+#  vignette("LazyTensor_rkeops", package = "rkeops")
+
+## -----------------------------------------------------------------------------
 #  # implementation of a convolution with a Gaussian kernel
 #  formula = "Sum_Reduction(Exp(-s * SqNorm2(x - y)) * b, 0)"
 #  # input arguments
@@ -46,23 +98,23 @@ library(rkeops)
 #  # computation (order of the input arguments should be similar to `args`)
 #  res <- op(list(X, Y, B, s))
 
-## ----formula, eval=FALSE------------------------------------------------------
+## ----formula------------------------------------------------------------------
 #  formula = "Sum_Reduction(Exp(-s * SqNorm2(x - y)) * b, 0)"
 
-## ----template_args, eval=FALSE------------------------------------------------
+## ----template_args------------------------------------------------------------
 #  args = c("<name1>=<type1>(dim1)", "<name2>=<type2>(dim2)", "<nameX>=<typeX>(dimX)")
 
-## ----args, eval=FALSE---------------------------------------------------------
+## ----args---------------------------------------------------------------------
 #  args = c("x = Vi(3)",      # vector indexed by i (of dim 3)
 #           "y = Vj(3)",      # vector indexed by j (of dim 3)
 #           "b = Vj(6)",      # vector indexed by j (of dim 6)
 #           "s = Pm(1)")      # parameter (scalar)
 
-## ----compile, eval=FALSE------------------------------------------------------
+## ----compile------------------------------------------------------------------
 #  # compilation
 #  op <- keops_kernel(formula, args)
 
-## ----run, eval=FALSE----------------------------------------------------------
+## ----run----------------------------------------------------------------------
 #  # data and parameter values
 #  nx <- 100
 #  ny <- 150
@@ -72,14 +124,15 @@ library(rkeops)
 #  s <- 0.2
 #  
 #  # to run computation on CPU (default mode)
-#  use_cpu()
+#  rkeops_use_cpu()
+#  # OR
 #  # to run computations on GPU (to be used only if relevant)
-#  use_gpu()
+#  rkeops_use_gpu()
 #  
 #  # computation (order of the input arguments should be similar to `args`)
 #  res <- op(list(x, y, beta, s))
 
-## ----grad, eval=FALSE---------------------------------------------------------
+## ----grad---------------------------------------------------------------------
 #  # defining a formula with a Gradient
 #  formula <- "Grad(Sum_Reduction(SqNorm2(x-y), 0), x, eta)"
 #  args <- c("x=Vi(0,3)", "y=Vj(1,3)", "eta=Vi(2,1)")
@@ -97,7 +150,7 @@ library(rkeops)
 #  input <- list(x, y, eta)
 #  res <- op(input)
 
-## ----keops_grad, eval=FALSE---------------------------------------------------
+## ----keops_grad---------------------------------------------------------------
 #  # defining an operator (reduction on squared distance)
 #  formula <- "Sum_Reduction(SqNorm2(x-y), 0)"
 #  args <- c("x=Vi(0,3)", "y=Vj(1,3)")
@@ -116,37 +169,24 @@ library(rkeops)
 #  input <- list(x, y, eta)
 #  res <- grad_op(input)
 
-## ----get_options, eval=FALSE--------------------------------------------------
+## ----get_options--------------------------------------------------------------
 #  get_rkeops_options()
 
-## ----reset_options, eval=FALSE------------------------------------------------
+## ----reset_options------------------------------------------------------------
 #  set_rkeops_options()
 
-## ----set_option, eval=FALSE---------------------------------------------------
-#  set_rkeops_option(option, value)
-#  # `option` = text string, name of the option to set up
-#  # `value` = whatever value to assign to the chosen option
+## ----use_gpu------------------------------------------------------------------
+#  rkeops_use_gpu()
 
-## ----set_cuda, eval=FALSE-----------------------------------------------------
-#  # enable compiling for GPU if available (not necessary if using default options)
-#  compile4gpu()
-#  # or equivalently
-#  set_rkeops_option("use_cuda_if_possible", 1)
-#  # disable compiling for GPU
-#  set_rkeops_option("use_cuda_if_possible", 0)
+## ----precision----------------------------------------------------------------
+#  rkeops_use_float32()
+#  rkeops_use_float64()
 
-## ----set_precision, eval=FALSE------------------------------------------------
-#  set_rkeops_option("precision", "float")    # float 32bits (default)
-#  set_rkeops_option("precision", "double")   # float 64bits
+## ----verbosity----------------------------------------------------------------
+#  rkeops_enable_verbosity()
+#  rkeops_disable_verbosity()
 
-## ----use_gpu, eval=FALSE------------------------------------------------------
-#  use_gpu()
-#  # see `?runtime_options` for a more advanced use of GPU inside RKeOps
-
-## ----set_device_id, eval=FALSE------------------------------------------------
-#  set_rkeops_option("device_id", 0)
-
-## ----storage_order, eval=FALSE------------------------------------------------
+## ----storage_order------------------------------------------------------------
 #  # standard column reduction of a matrix product
 #  op <- keops_kernel(formula = "Sum_Reduction((x|y), 1)",
 #                     args = c("x=Vi(3)", "y=Vj(3)"))
@@ -158,8 +198,8 @@ library(rkeops)
 #  X <- matrix(runif(nx*3), nrow=nx, ncol=3)
 #  # y_j = rows of the matrix Y
 #  Y <- matrix(runif(ny*3), nrow=ny, ncol=3)
-#  # computing the result (here, by default `inner_dim=1` and columns corresponds
-#  # to the inner dimension)
+#  # computing the result (here, by default `inner_dim="col"` and columns
+#  # corresponds to the inner dimension)
 #  res <- op(list(X,Y))
 #  
 #  # data (inner dimension = rows)
@@ -169,7 +209,7 @@ library(rkeops)
 #  X <- matrix(runif(nx*3), nrow=3, ncol=nx)
 #  # y_j = columns of the matrix Y
 #  Y <- matrix(runif(ny*3), nrow=3, ncol=ny)
-#  # computing the result (we specify `inner_dim=0` to indicate that rows
+#  # computing the result (we specify `inner_dim="row"` to indicate that rows
 #  # corresponds to the inner dimension)
-#  res <- op(list(X,Y), inner_dim=0)
+#  res <- op(list(X,Y), inner_dim="row")
 
